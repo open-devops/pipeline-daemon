@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	log.Printf("Server started")
+	log.Printf("Pipeline Daemon Server started!")
 
 	router := sw.NewRouter()
 

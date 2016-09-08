@@ -33,7 +33,7 @@ func NewRouter() *mux.Router {
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Welcome to Pipeline Daemon!")
+	fmt.Fprintf(w, "Pipeline Daemon Server")
 }
 
 var routes = Routes{
