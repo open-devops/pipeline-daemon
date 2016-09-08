@@ -1,4 +1,5 @@
 .git
 .gitignore
+api/
 README.md
 LICENSE
