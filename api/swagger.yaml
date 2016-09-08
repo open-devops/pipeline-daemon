@@ -1,0 +1,240 @@
+swagger: "2.0"
+info:
+  title: Pipeline Daemon API
+  description: Pipeline Daemon Server & Engine for Pipeline Management
+  version: "1.0.0"
+  contact:
+    name: open.devops@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+host: api.opendevops.io
+basePath: /v1
+schemes:
+  - https
+produces:
+  - application/json
+paths:
+  /pipelines/{pipelineId}/provision:
+    post:
+      tags:
+        - Pipeline Provision
+      summary: Provision a new pipeline
+      description: "Generate a new pipeline provision environment based on the specified provision info"
+      operationId: addProvision
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: pipelineId
+          description: ID of the pipeline that needs to be provisioned
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Provision info of the pipeline that needs to be provisioned
+          required: true
+          schema:
+            $ref: "#/definitions/PipelineProvision"
+      responses:
+        "405":
+          description: Invalid input
+        "200":
+          description: successful operation
+        "400":
+          description: Invalid Pipeline ID supplied
+    get:
+      tags:
+        - Pipeline Provision
+      summary: Find the pipeline provision info by pipeline ID
+      description: Returns the pipeline provisioning info according to the specified pipeline ID
+      operationId: getProvision
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: pipelineId
+          description: ID of the pipeline that needs to be fetched for provisioned info
+          required: true
+          type: string
+      responses:
+        "404":
+          description: Pipeline provision not found
+        "200":
+          description: successful operation
+          schema:
+            $ref: "#/definitions/PipelineProvision"
+        "400":
+          description: Invalid Pipeline ID supplied
+    delete:
+      tags:
+        - Pipeline Provision
+      summary: Deletes a pipeline provision
+      description: "Deletes the pipeline provision according to the specified pipeline ID"
+      operationId: deleteProvision
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: pipelineId
+          description: ID of the pipeline that needs to be deleted
+          required: true
+          type: string
+      responses:
+        "404":
+          description: Pipeline provision not found
+        "200":
+          description: successful operation
+        "400":
+          description: Invalid Pipeline ID supplied
+  /pipelines/{pipelineId}/start:
+    post:
+      tags:
+        - Pipeline Operation
+      summary: Start the provisioned pipeline
+      description: "Start the provisioned pipeline according to the specified pipeline ID"
+      operationId: startPipeline
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: pipelineId
+          description: ID of the pipeline that needs to be started
+          required: true
+          type: string
+      responses:
+        "404":
+          description: Pipeline provision not found
+        "200":
+          description: successful operation
+          schema:
+            $ref: "#/definitions/PipelineStatus"
+        "400":
+          description: Invalid Pipeline ID supplied
+  /pipelines/{pipelineId}/stop:
+    post:
+      tags:
+        - Pipeline Operation
+      summary: Stop the provisioned pipeline
+      description: "Stop the provisioned pipeline according to the specified pipeline ID"
+      operationId: stopPipeline
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: pipelineId
+          description: ID of the pipeline that needs to be stopped
+          required: true
+          type: string
+      responses:
+        "404":
+          description: Pipeline provision not found
+        "200":
+          description: successful operation
+          schema:
+            $ref: "#/definitions/PipelineStatus"
+        "400":
+          description: Invalid Pipeline ID supplied
+  /pipelines/{pipelineId}/restart:
+    post:
+      tags:
+        - Pipeline Operation
+      summary: Restart the provisioned pipeline
+      description: "Restart the provisioned pipeline according to the specified pipeline ID"
+      operationId: restartPipeline
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: pipelineId
+          description: ID of the pipeline that needs to be restarted
+          required: true
+          type: string
+      responses:
+        "404":
+          description: Pipeline provision not found
+        "200":
+          description: successful operation
+          schema:
+            $ref: "#/definitions/PipelineStatus"
+        "400":
+          description: Invalid Pipeline ID supplied
+  /pipelines/{pipelineId}/status:
+    get:
+      tags:
+        - Pipeline Operation
+      summary: Find the status of the provisioned pipeline
+      description: "Get the status of provisioned pipeline according to the specified pipeline ID"
+      operationId: getPipelineStatus
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: pipelineId
+          description: ID of the pipeline that needs to be fetched for the status info
+          required: true
+          type: string
+      responses:
+        "404":
+          description: Pipeline provision not found
+        "200":
+          description: successful operation
+          schema:
+            $ref: "#/definitions/PipelineStatus"
+        "400":
+          description: Invalid Pipeline ID supplied
+definitions:
+  PipelineProvision:
+    type: object
+    properties:
+      pipelineId:
+        type: string
+      pipelineName:
+        type: string
+      capabilities:
+        type: array
+        items:
+          $ref: "#/definitions/PipelineCapability"
+  PipelineCapability:
+    type: object
+    properties:
+      kind:
+        type: string
+      driver:
+        type: string 
+      provider:
+        type: string
+      configItems:
+        type: array
+        items:
+          $ref: "#/definitions/PipelineCapabilityConfigItem"
+  PipelineCapabilityConfigItem:
+    type: object
+    properties:
+      kind:
+        type: string
+      name:
+        type: string 
+      value:
+        type: string
+  PipelineStatus:
+    type: object
+    properties:
+      ca:
+        type: string
+      scm:
+        type: string
+      ci:
+        type: string
+      cq:
+        type: string
+      rpa:
+        type: string
+      rpd:
+        type: string
+      cov:
+        type: string
+      cmp:
+        type: string
