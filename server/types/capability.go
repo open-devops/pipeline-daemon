@@ -1,8 +1,10 @@
 package types
 
 type PipelineCapability struct {
-	kind        string
-	driver      string
-	provider    string
-	configItems []ConfigItem
+	Kind        string      `json:"kind"`
+	Driver      string      `json:"driver"`
+	Provider    string      `json:"provider"`
+	ConfigItems ConfigItems `json:"configItems"`
 }
+
+type PipelineCapabilities []PipelineCapability

@@ -222,6 +222,8 @@ definitions:
   PipelineStatus:
     type: object
     properties:
+      pipelineId:
+        type: string
       ca:
         type: string
       scm:

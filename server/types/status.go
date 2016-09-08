@@ -1,12 +1,13 @@
 package types
 
-type PipelineCapability struct {
-	ca  string
-	scm string
-	ci  string
-	cq  string
-	rpa string
-	rpd string
-	cov string
-	cmp string
+type PipelineStatus struct {
+	PipelineId            string `json:"pipelineId"`
+	RequirementManagement string `json:"ca"`
+	SoftwareControlManage string `json:"scm"`
+	ContinuousIntegration string `json:"ci"`
+	CodeQualityInspection string `json:"cq"`
+	RepositoryForArtifact string `json:"rpa"`
+	RepositoryOfContainer string `json:"rpd"`
+	PipelineDashboard     string `json:"cov"`
+	ContainerManagement   string `json:"cmp"`
 }

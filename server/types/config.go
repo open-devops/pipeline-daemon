@@ -1,7 +1,9 @@
 package types
 
 type ConfigItem struct {
-	kind  string
-	name  string
-	value string
+	Kind  string `json:"kind"`
+	Name  string `json:"name"`
+	Value string `json:"value"`
 }
+
+type ConfigItems []ConfigItem
