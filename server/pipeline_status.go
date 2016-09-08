@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/gorilla/mux"
 	"github.com/open-devops/pipeline-daemon/server/types"
+	"github.com/open-devops/pipeline-daemon/server/types/status"
 	"net/http"
 )
 
@@ -15,14 +16,14 @@ func GetPipelineStatus(w http.ResponseWriter, r *http.Request) {
 
 	status := &types.PipelineStatus{
 		PipelineId:            pipelineId,
-		RequirementManagement: "Up",
-		SoftwareControlManage: "Up",
-		ContinuousIntegration: "Up",
-		CodeQualityInspection: "Up",
-		RepositoryForArtifact: "Up",
-		RepositoryOfContainer: "Up",
-		PipelineDashboard:     "Up",
-		ContainerManagement:   "Up",
+		RequirementManagement: Status.Up,
+		SoftwareControlManage: Status.Up,
+		ContinuousIntegration: Status.Up,
+		CodeQualityInspection: Status.Up,
+		RepositoryForArtifact: Status.Up,
+		RepositoryOfContainer: Status.Up,
+		PipelineDashboard:     Status.Up,
+		ContainerManagement:   Status.Up,
 	}
 
 	response, _ := json.Marshal(status)
