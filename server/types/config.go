@@ -1,6 +1,6 @@
 package types
 
-type PipelineCapabilityConfigItem struct {
+type ConfigItem struct {
 	kind  string
 	name  string
 	value string

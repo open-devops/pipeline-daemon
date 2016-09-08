@@ -209,8 +209,8 @@ definitions:
       configItems:
         type: array
         items:
-          $ref: "#/definitions/PipelineCapabilityConfigItem"
-  PipelineCapabilityConfigItem:
+          $ref: "#/definitions/ConfigItem"
+  ConfigItem:
     type: object
     properties:
       kind:
