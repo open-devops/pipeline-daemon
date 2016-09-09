@@ -20,7 +20,7 @@ type Pipeline struct {
 
 func FetchPipelineInfo(pipelineId string) *types.PipelineInfo {
 	// Create session
-	session, err := mgo.Dial(os.Getenv("DOCKER_HOST"))
+	session, err := mgo.Dial(os.Getenv("PORTAL_LOCALHOST"))
 	if err != nil {
 		panic(err)
 	}
