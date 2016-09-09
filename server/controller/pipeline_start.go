@@ -13,6 +13,7 @@ func StartPipeline(w http.ResponseWriter, r *http.Request) {
 
 	// Get pipeline ID from path parameters
 	pipelineId := mux.Vars(r)["pipelineId"]
+	//capability := mux.Vars(r)["capability"]
 
 	// Get pipeline fundamental info
 	pipelineInfo := model.FetchPipelineInfo(pipelineId)
