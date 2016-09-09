@@ -16,8 +16,9 @@ RUN set -x \
 ADD . /go/src/github.com/open-devops/pipeline-daemon
 
 # Build executable server daemon
-RUN go get github.com/gorilla/mux
-RUN go install github.com/open-devops/pipeline-daemon
+RUN go get github.com/gorilla/mux \
+ && go get gopkg.in/mgo.v2 \
+ && go install github.com/open-devops/pipeline-daemon
 
 # Run the Daemon Service by default when the container starts
 ENTRYPOINT /go/bin/pipeline-daemon
