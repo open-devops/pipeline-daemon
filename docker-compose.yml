@@ -6,7 +6,7 @@
 version: '2'
 
 services:
-  jenkins:
+  pipeline-daemon:
     image: devopsopen/pipeline-daemon
     ports:
       - "8700:8080"
