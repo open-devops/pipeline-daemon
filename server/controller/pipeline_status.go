@@ -1,8 +1,9 @@
-package controllers
+package controller
 
 import (
 	"encoding/json"
 	"github.com/gorilla/mux"
+	"github.com/open-devops/pipeline-daemon/server/model"
 	"github.com/open-devops/pipeline-daemon/server/types"
 	"github.com/open-devops/pipeline-daemon/server/types/status"
 	"net/http"
@@ -10,12 +11,22 @@ import (
 
 func GetPipelineStatus(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
 
+	// Get pipeline ID from path parameters
 	pipelineId := mux.Vars(r)["pipelineId"]
 
+	// Get pipeline fundamental info
+	pipelineInfo := model.FetchPipelineInfo(pipelineId)
+
+	// Invalid Pipeline ID supplied
+	if len(pipelineInfo.PipelineName) == 0 {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	// Return the pipeline's provisioning & running status
 	status := &types.PipelineStatus{
-		PipelineId:            pipelineId,
+		PipelineId:            pipelineInfo.PipelineName + ":" + pipelineId,
 		RequirementManagement: Status.Up,
 		SoftwareControlManage: Status.Up,
 		ContinuousIntegration: Status.Up,
@@ -27,5 +38,7 @@ func GetPipelineStatus(w http.ResponseWriter, r *http.Request) {
 	}
 
 	response, _ := json.Marshal(status)
+
+	w.WriteHeader(http.StatusOK)
 	w.Write(response)
 }

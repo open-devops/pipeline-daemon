@@ -3,7 +3,7 @@ package server
 import (
 	"fmt"
 	"github.com/gorilla/mux"
-	ctl "github.com/open-devops/pipeline-daemon/server/controllers"
+	ctl "github.com/open-devops/pipeline-daemon/server/controller"
 	utl "github.com/open-devops/pipeline-daemon/server/utility"
 	"net/http"
 )
