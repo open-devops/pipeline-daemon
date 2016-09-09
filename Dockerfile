@@ -25,3 +25,6 @@ ENTRYPOINT /go/bin/pipeline-daemon
 
 # Service listens on port 8080.
 EXPOSE 8080
+
+# Volume shared with host server
+VOLUME /go/bin
