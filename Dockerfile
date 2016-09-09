@@ -23,8 +23,5 @@ RUN go get github.com/gorilla/mux \
 # Service listens on port 8080.
 EXPOSE 8080
 
-# Volume shared with host server
-VOLUME /go/bin
-
 # Run the Daemon Service by default when the container starts
 ENTRYPOINT /go/bin/pipeline-daemon
