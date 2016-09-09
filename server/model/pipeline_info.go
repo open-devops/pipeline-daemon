@@ -1,6 +1,8 @@
 package model
 
 import (
+	"encoding/json"
+	"fmt"
 	"github.com/open-devops/pipeline-daemon/server/types"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
@@ -78,11 +80,17 @@ func FetchPipelineInfo(pipelineId string) *types.PipelineInfo {
 
 	// Return Pipeline Information
 	pipelineInfo := &types.PipelineInfo{
-		PipelineId:   pipeline.PipelineId,
-		PipelineName: pipeline.PipelineName,
-		ProductName:  pipeline.Name,
-		Permissions:  permissions,
+		PipelineId:          pipeline.PipelineId,
+		PipelineName:        pipeline.PipelineName,
+		PipelineDescription: pipeline.PipelineDescription,
+		ProductName:         pipeline.Name,
+		ProductDescription:  pipeline.Description,
+		Permissions:         permissions,
 	}
+
+	// TODO: delete this debug information
+	debugInfo, _ := json.Marshal(pipelineInfo)
+	fmt.Println(string(debugInfo))
 
 	return pipelineInfo
 }
