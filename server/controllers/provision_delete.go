@@ -1,9 +1,9 @@
-package server
+package controllers
 
 import (
-	"net/http"
-	"github.com/gorilla/mux"
 	"fmt"
+	"github.com/gorilla/mux"
+	"net/http"
 )
 
 func DeleteProvision(w http.ResponseWriter, r *http.Request) {
@@ -11,5 +11,5 @@ func DeleteProvision(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 
 	pipelineId := mux.Vars(r)["pipelineId"]
-	fmt.Fprintf(w, "Pipeline (ID:" + pipelineId + ") deleted!")
+	fmt.Fprintf(w, "Pipeline (ID:"+pipelineId+") deleted!")
 }

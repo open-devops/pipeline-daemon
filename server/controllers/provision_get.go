@@ -1,4 +1,4 @@
-package server
+package controllers
 
 import (
 	"encoding/json"
@@ -15,7 +15,6 @@ func GetProvision(w http.ResponseWriter, r *http.Request) {
 
 	provision := &types.PipelineProvision{
 		PipelineId:   pipelineId,
-		PipelineName: "OpenDevOps",
 		Capabilities: nil,
 	}
 

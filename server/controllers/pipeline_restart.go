@@ -1,4 +1,4 @@
-package server
+package controllers
 
 import (
 	"encoding/json"
@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-func StopPipeline(w http.ResponseWriter, r *http.Request) {
+func RestartPipeline(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
 
@@ -16,14 +16,14 @@ func StopPipeline(w http.ResponseWriter, r *http.Request) {
 
 	status := &types.PipelineStatus{
 		PipelineId:            pipelineId,
-		RequirementManagement: Status.Down,
-		SoftwareControlManage: Status.Down,
-		ContinuousIntegration: Status.Down,
-		CodeQualityInspection: Status.Down,
-		RepositoryForArtifact: Status.Down,
-		RepositoryOfContainer: Status.Down,
-		PipelineDashboard:     Status.Down,
-		ContainerManagement:   Status.Down,
+		RequirementManagement: Status.Up,
+		SoftwareControlManage: Status.Up,
+		ContinuousIntegration: Status.Up,
+		CodeQualityInspection: Status.Up,
+		RepositoryForArtifact: Status.Up,
+		RepositoryOfContainer: Status.Up,
+		PipelineDashboard:     Status.Up,
+		ContainerManagement:   Status.Up,
 	}
 
 	response, _ := json.Marshal(status)

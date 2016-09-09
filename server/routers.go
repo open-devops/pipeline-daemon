@@ -3,6 +3,8 @@ package server
 import (
 	"fmt"
 	"github.com/gorilla/mux"
+	ctl "github.com/open-devops/pipeline-daemon/server/controllers"
+	utl "github.com/open-devops/pipeline-daemon/server/utility"
 	"net/http"
 )
 
@@ -20,7 +22,7 @@ func NewRouter() *mux.Router {
 	for _, route := range routes {
 		var handler http.Handler
 		handler = route.HandlerFunc
-		handler = Logger(handler, route.Name)
+		handler = utl.Logger(handler, route.Name)
 
 		router.
 			Methods(route.Method).
@@ -48,48 +50,48 @@ var routes = Routes{
 		"GetPipelineStatus",
 		"GET",
 		"/v1/pipelines/{pipelineId}/status",
-		GetPipelineStatus,
+		ctl.GetPipelineStatus,
 	},
 
 	Route{
 		"RestartPipeline",
 		"POST",
 		"/v1/pipelines/{pipelineId}/restart",
-		RestartPipeline,
+		ctl.RestartPipeline,
 	},
 
 	Route{
 		"StartPipeline",
 		"POST",
 		"/v1/pipelines/{pipelineId}/start",
-		StartPipeline,
+		ctl.StartPipeline,
 	},
 
 	Route{
 		"StopPipeline",
 		"POST",
 		"/v1/pipelines/{pipelineId}/stop",
-		StopPipeline,
+		ctl.StopPipeline,
 	},
 
 	Route{
 		"AddProvision",
 		"POST",
 		"/v1/pipelines/{pipelineId}/provision",
-		AddProvision,
+		ctl.AddProvision,
 	},
 
 	Route{
 		"DeleteProvision",
 		"DELETE",
 		"/v1/pipelines/{pipelineId}/provision",
-		DeleteProvision,
+		ctl.DeleteProvision,
 	},
 
 	Route{
 		"GetProvision",
 		"GET",
 		"/v1/pipelines/{pipelineId}/provision",
-		GetProvision,
+		ctl.GetProvision,
 	},
 }
