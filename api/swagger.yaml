@@ -113,6 +113,35 @@ paths:
             $ref: "#/definitions/PipelineStatus"
         "400":
           description: Invalid Pipeline ID supplied
+  /pipelines/{pipelineId}/start/{capability}:
+    post:
+      tags:
+        - Pipeline Operation
+      summary: Start the specified capability of the provisioned pipeline
+      description: "Start the specified capability of the provisioned pipeline according to the specified pipeline ID"
+      operationId: startCapability
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: pipelineId
+          description: ID of the pipeline that needs to be started
+          required: true
+          type: string
+        - in: path
+          name: capability
+          description: The capability abbrev that needs to be started
+          required: true
+          type: string
+      responses:
+        "404":
+          description: Pipeline provision not found
+        "200":
+          description: successful operation
+          schema:
+            $ref: "#/definitions/PipelineStatus"
+        "400":
+          description: Invalid Pipeline ID or Capability supplied
   /pipelines/{pipelineId}/stop:
     post:
       tags:
@@ -137,6 +166,35 @@ paths:
             $ref: "#/definitions/PipelineStatus"
         "400":
           description: Invalid Pipeline ID supplied
+  /pipelines/{pipelineId}/stop/{capability}:
+    post:
+      tags:
+        - Pipeline Operation
+      summary: Stop the specified capability of the provisioned pipeline
+      description: "Stop the specified capability of the provisioned pipeline according to the specified pipeline ID"
+      operationId: stopCapability
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: pipelineId
+          description: ID of the pipeline that needs to be stopped
+          required: true
+          type: string
+        - in: path
+          name: capability
+          description: The capability abbrev that needs to be stopped
+          required: true
+          type: string
+      responses:
+        "404":
+          description: Pipeline provision not found
+        "200":
+          description: successful operation
+          schema:
+            $ref: "#/definitions/PipelineStatus"
+        "400":
+          description: Invalid Pipeline ID or Capability supplied
   /pipelines/{pipelineId}/restart:
     post:
       tags:
@@ -150,6 +208,35 @@ paths:
         - in: path
           name: pipelineId
           description: ID of the pipeline that needs to be restarted
+          required: true
+          type: string
+      responses:
+        "404":
+          description: Pipeline provision not found
+        "200":
+          description: successful operation
+          schema:
+            $ref: "#/definitions/PipelineStatus"
+        "400":
+          description: Invalid Pipeline ID or Capability supplied
+  /pipelines/{pipelineId}/restart/{capability}:
+    post:
+      tags:
+        - Pipeline Operation
+      summary: Restart the specified capability of the provisioned pipeline
+      description: "Restart the specified capability of the provisioned pipeline according to the specified pipeline ID"
+      operationId: restartCapability
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: pipelineId
+          description: ID of the pipeline that needs to be restarted
+          required: true
+          type: string
+        - in: path
+          name: capability
+          description: The capability abbrev that needs to be restarted
           required: true
           type: string
       responses:
