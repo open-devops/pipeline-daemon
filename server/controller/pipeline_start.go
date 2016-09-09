@@ -4,8 +4,6 @@ import (
 	"encoding/json"
 	"github.com/gorilla/mux"
 	"github.com/open-devops/pipeline-daemon/server/model"
-	"github.com/open-devops/pipeline-daemon/server/types"
-	"github.com/open-devops/pipeline-daemon/server/types/status"
 	"net/http"
 )
 
@@ -25,19 +23,9 @@ func StartPipeline(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Return the pipeline's provisioning & running status
-	status := &types.PipelineStatus{
-		PipelineId:            pipelineInfo.PipelineId,
-		RequirementManagement: Status.Up,
-		SoftwareControlManage: Status.Up,
-		ContinuousIntegration: Status.Up,
-		CodeQualityInspection: Status.Up,
-		RepositoryForArtifact: Status.Up,
-		RepositoryOfContainer: Status.Up,
-		PipelineDashboard:     Status.Up,
-		ContainerManagement:   Status.Up,
-	}
-
+	// Get the pipeline's provisioning & running status
+	status := model.FetchPipelineStatus(pipelineId)
 	response, _ := json.Marshal(status)
+
 	w.Write(response)
 }

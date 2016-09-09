@@ -3,8 +3,7 @@ package controller
 import (
 	"encoding/json"
 	"github.com/gorilla/mux"
-	"github.com/open-devops/pipeline-daemon/server/types"
-	"github.com/open-devops/pipeline-daemon/server/types/status"
+	"github.com/open-devops/pipeline-daemon/server/model"
 	"net/http"
 )
 
@@ -14,18 +13,9 @@ func StopPipeline(w http.ResponseWriter, r *http.Request) {
 
 	pipelineId := mux.Vars(r)["pipelineId"]
 
-	status := &types.PipelineStatus{
-		PipelineId:            pipelineId,
-		RequirementManagement: Status.Down,
-		SoftwareControlManage: Status.Down,
-		ContinuousIntegration: Status.Down,
-		CodeQualityInspection: Status.Down,
-		RepositoryForArtifact: Status.Down,
-		RepositoryOfContainer: Status.Down,
-		PipelineDashboard:     Status.Down,
-		ContainerManagement:   Status.Down,
-	}
-
+	// Get the pipeline's provisioning & running status
+	status := model.FetchPipelineStatus(pipelineId)
 	response, _ := json.Marshal(status)
+
 	w.Write(response)
 }
