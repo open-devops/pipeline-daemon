@@ -2,6 +2,7 @@ package controller
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/open-devops/pipeline-daemon/server/model"
 	"github.com/open-devops/pipeline-daemon/server/types"
@@ -18,6 +19,9 @@ func GetPipelineStatus(w http.ResponseWriter, r *http.Request) {
 	// Get pipeline fundamental info
 	pipelineInfo := model.FetchPipelineInfo(pipelineId)
 
+	debugInfo, _ := json.Marshal(pipelineInfo)
+	fmt.Println(string(debugInfo))
+
 	// Invalid Pipeline ID supplied
 	if len(pipelineInfo.PipelineName) == 0 {
 		w.WriteHeader(http.StatusBadRequest)
@@ -26,7 +30,7 @@ func GetPipelineStatus(w http.ResponseWriter, r *http.Request) {
 
 	// Return the pipeline's provisioning & running status
 	status := &types.PipelineStatus{
-		PipelineId:            pipelineInfo.PipelineName + ":" + pipelineId,
+		PipelineId:            pipelineId,
 		RequirementManagement: Status.Up,
 		SoftwareControlManage: Status.Up,
 		ContinuousIntegration: Status.Up,

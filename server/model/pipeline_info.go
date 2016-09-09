@@ -1,7 +1,6 @@
 package model
 
 import (
-	"fmt"
 	"github.com/open-devops/pipeline-daemon/server/types"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
@@ -10,12 +9,24 @@ import (
 
 type Pipeline struct {
 	ID                  bson.ObjectId `_id,omitempty`
-	Name                string
-	Description         string
-	PipelineId          string
-	PipelineName        string
-	PipelineDescription string
-	OrganizationId      string
+	Name                string        `name,omitempty`
+	Description         string        `description,omitempty`
+	PipelineId          string        `pipelineId,omitempty`
+	PipelineName        string        `pipelineName,omitempty`
+	PipelineDescription string        `pipelineDescription,omitempty`
+	OrganizationId      string        `organizationId,omitempty`
+}
+
+type Account struct {
+	ID          bson.ObjectId `_id,omitempty`
+	Name        string        `name,omitempty`
+	Mail        string        `mail,omitempty`
+	AccessToken string        `accessToken,omitempty`
+}
+
+type Role struct {
+	ID   bson.ObjectId `_id,omitempty`
+	Name string        `name,omitempty`
 }
 
 func FetchPipelineInfo(pipelineId string) *types.PipelineInfo {
@@ -37,12 +48,40 @@ func FetchPipelineInfo(pipelineId string) *types.PipelineInfo {
 		return new(types.PipelineInfo) // Pipeline not exist
 	}
 
-	fmt.Println("Pipeline:", pipelineId+"="+pipeline.PipelineId+"-"+pipeline.Name)
+	// Fetch Pipeline permission information
+	var permissions []types.Permission
+	c = session.DB("dashboard").C("permission")
+	err = c.Find(bson.M{"pipelineId": pipelineId}).All(&permissions)
+	if err != nil {
+		return new(types.PipelineInfo) // Pipeline not exist
+	}
 
-	// return Pipeline Information
+	// Fetch Account information
+	c = session.DB("dashboard").C("account")
+	for i := 0; i < len(permissions); i++ {
+		permission := &permissions[i]
+		account := Account{}
+		err = c.Find(bson.M{"_id": permission.AccountId}).One(&account)
+		permission.AccountName = account.Name
+		permission.AccountMail = account.Mail
+		permission.AccessToken = account.AccessToken
+	}
+
+	// Fetch Role information
+	c = session.DB("dashboard").C("role")
+	for i := 0; i < len(permissions); i++ {
+		permission := &permissions[i]
+		role := Role{}
+		err = c.Find(bson.M{"_id": permission.RoleId}).One(&role)
+		permission.RoleName = role.Name
+	}
+
+	// Return Pipeline Information
 	pipelineInfo := &types.PipelineInfo{
 		PipelineId:   pipeline.PipelineId,
-		PipelineName: pipeline.Name,
+		PipelineName: pipeline.PipelineName,
+		ProductName:  pipeline.Name,
+		Permissions:  permissions,
 	}
 
 	return pipelineInfo

@@ -1,7 +1,8 @@
 package types
 
 type PipelineInfo struct {
-	PipelineId   string `json:"pipelineId"`
-	ProductName  string `json:"productName"`
-	PipelineName string `json:"pipelineName"`
+	PipelineId   string       `json:"pipelineId"`
+	ProductName  string       `json:"productName"`
+	PipelineName string       `json:"pipelineName"`
+	Permissions  []Permission `json:"permissions"`
 }
