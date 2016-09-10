@@ -1,8 +1,6 @@
 package model
 
 import (
-	"encoding/json"
-	"fmt"
 	"github.com/open-devops/pipeline-daemon/server/types"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
