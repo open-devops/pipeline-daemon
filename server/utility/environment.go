@@ -27,7 +27,7 @@ func GetEngineProgramPath(pipelineInfo *types.PipelineInfo) string {
 			DEFAULT_ENGINE_PATH,
 			pipelineInfo.ProductName,
 			pipelineInfo.PipelineName,
-			PATH_SEPARATOR,
+			PIPELINE_ENGINE_NAM,
 		},
 		PATH_SEPARATOR)
 }
