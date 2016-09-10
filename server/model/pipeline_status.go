@@ -17,7 +17,7 @@ func FetchPipelineStatus(pipelineInfo *types.PipelineInfo) *types.PipelineStatus
 	engineProgramPath := utl.GetEngineProgramPath(pipelineInfo)
 
 	// Engine program parameter
-	args := []string{"status",  "|grep" + utl.GetContainerPrefix(pipelineInfo.PipelineName)}
+	args := []string{"status",  "|grep " + utl.GetContainerPrefix(pipelineInfo.PipelineName)}
 
 	// Pipeline status information
 	var status *types.PipelineStatus
