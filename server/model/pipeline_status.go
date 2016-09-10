@@ -11,10 +11,10 @@ import (
 
 func FetchPipelineStatus(pipelineInfo *types.PipelineInfo) *types.PipelineStatus {
 	// Engine program path
-	enginePath := utl.GetEnginePath(pipelineInfo)
+	engineParentPath := utl.GetEngineParentPath(pipelineInfo)
 
 	// Engine program name
-	engineName := utl.GetEngineName()
+	engineProgramPath := utl.GetEngineProgramPath(pipelineInfo)
 
 	// Engine program parameter
 	args := []string{"status"}
@@ -22,15 +22,16 @@ func FetchPipelineStatus(pipelineInfo *types.PipelineInfo) *types.PipelineStatus
 	// Pipeline status information
 	var status *types.PipelineStatus
 
-	fmt.Println("engine = " + enginePath + "/" + engineName)
+	fmt.Println("engineParentPath = " + engineParentPath)
+	fmt.Println("engineProgramPath = " + engineProgramPath)
 
 	// Fetch pipeline status information using engine program
-	if err := os.Chdir(enginePath); err != err {
+	if err := os.Chdir(engineParentPath); err != err {
 		return sta.StatusAs(pipelineInfo, sta.Unknown)
 	}
 
 	// Dedicate the status fetch job to pipeline engine
-	if out, err := exec.Command(engineName, args...).Output(); err != nil {
+	if out, err := exec.Command(engineProgramPath, args...).Output(); err != nil {
 		return sta.StatusAs(pipelineInfo, sta.Unknown)
 	} else {
 		fmt.Println(string(out))

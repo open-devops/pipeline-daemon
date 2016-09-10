@@ -11,7 +11,7 @@ const (
 	PATH_SEPARATOR      = "/"
 )
 
-func GetEnginePath(pipelineInfo *types.PipelineInfo) string {
+func GetEngineParentPath(pipelineInfo *types.PipelineInfo) string {
 	return strings.Join(
 		[]string{
 			DEFAULT_ENGINE_PATH,
@@ -21,6 +21,13 @@ func GetEnginePath(pipelineInfo *types.PipelineInfo) string {
 		PATH_SEPARATOR)
 }
 
-func GetEngineName() string {
-	return PIPELINE_ENGINE_NAM
+func GetEngineProgramPath(pipelineInfo *types.PipelineInfo) string {
+	return strings.Join(
+		[]string{
+			DEFAULT_ENGINE_PATH,
+			pipelineInfo.ProductName,
+			pipelineInfo.PipelineName,
+			PATH_SEPARATOR,
+		},
+		PATH_SEPARATOR)
 }
