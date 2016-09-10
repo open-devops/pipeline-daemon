@@ -17,7 +17,10 @@ func GetEnginePath(pipelineInfo *types.PipelineInfo) string {
 			DEFAULT_ENGINE_PATH,
 			pipelineInfo.ProductName,
 			pipelineInfo.PipelineName,
-			PIPELINE_ENGINE_NAM,
 		},
 		PATH_SEPARATOR)
+}
+
+func GetEngineName() string {
+	return PIPELINE_ENGINE_NAM
 }
