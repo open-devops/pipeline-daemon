@@ -1,6 +1,7 @@
 package Status
 
 const (
-	Up   = "Up"
-	Down = "Down"
+	Up      = "Up"
+	Down    = "Down"
+	Unknown = "N/A"
 )

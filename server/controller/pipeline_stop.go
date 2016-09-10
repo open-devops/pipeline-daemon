@@ -14,8 +14,11 @@ func StopPipeline(w http.ResponseWriter, r *http.Request) {
 	pipelineId := mux.Vars(r)["pipelineId"]
 	//capability := mux.Vars(r)["capability"]
 
+	// Get pipeline fundamental info
+	pipelineInfo := model.FetchPipelineInfo(pipelineId)
+
 	// Get the pipeline's provisioning & running status
-	status := model.FetchPipelineStatus(pipelineId)
+	status := model.FetchPipelineStatus(pipelineInfo)
 	response, _ := json.Marshal(status)
 
 	w.Write(response)

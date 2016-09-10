@@ -23,7 +23,7 @@ func GetPipelineStatus(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Get the pipeline's provisioning & running status
-	status := model.FetchPipelineStatus(pipelineId)
+	status := model.FetchPipelineStatus(pipelineInfo)
 	response, _ := json.Marshal(status)
 
 	w.WriteHeader(http.StatusOK)
