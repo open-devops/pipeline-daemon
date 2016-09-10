@@ -31,3 +31,7 @@ func GetEngineProgramPath(pipelineInfo *types.PipelineInfo) string {
 		},
 		PATH_SEPARATOR)
 }
+
+func GetContainerPrefix(name string) string {
+	return strings.Replace(name, "-", "", -1)
+}

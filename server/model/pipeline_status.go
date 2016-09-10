@@ -17,13 +17,10 @@ func FetchPipelineStatus(pipelineInfo *types.PipelineInfo) *types.PipelineStatus
 	engineProgramPath := utl.GetEngineProgramPath(pipelineInfo)
 
 	// Engine program parameter
-	args := []string{"status"}
+	args := []string{"status",  "|grep" + utl.GetContainerPrefix(pipelineInfo.PipelineName)}
 
 	// Pipeline status information
 	var status *types.PipelineStatus
-
-	fmt.Println("engineParentPath = " + engineParentPath)
-	fmt.Println("engineProgramPath = " + engineProgramPath)
 
 	// Fetch pipeline status information using engine program
 	if err := os.Chdir(engineParentPath); err != err {

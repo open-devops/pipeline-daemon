@@ -88,9 +88,5 @@ func FetchPipelineInfo(pipelineId string) *types.PipelineInfo {
 		Permissions:         permissions,
 	}
 
-	// TODO: delete this debug information
-	debugInfo, _ := json.Marshal(pipelineInfo)
-	fmt.Println(string(debugInfo))
-
 	return pipelineInfo
 }
