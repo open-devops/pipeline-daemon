@@ -51,7 +51,7 @@ func CreateProvision(pipelineInfo *types.PipelineInfo) error {
 	if out, err := exec.Command(engineProgramPath, args...).Output(); err != nil {
 		return err
 	} else {
-		fmt.Println(out)
+		fmt.Println(string(out))
 		return nil
 	}
 
