@@ -2,6 +2,7 @@ package controller
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/open-devops/pipeline-daemon/server/model"
 	"net/http"
@@ -23,9 +24,13 @@ func GetPipelineStatus(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Get the pipeline's provisioning & running status
-	status := model.FetchPipelineStatus(pipelineInfo)
-	response, _ := json.Marshal(status)
-
-	w.WriteHeader(http.StatusOK)
-	w.Write(response)
+	if status, err := model.FetchPipelineStatus(pipelineInfo); err != nil {
+		fmt.Println(err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	} else {
+		response, _ := json.Marshal(status)
+		w.WriteHeader(http.StatusOK)
+		w.Write(response)
+	}
 }

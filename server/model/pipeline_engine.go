@@ -9,28 +9,26 @@ import (
 	"os/exec"
 )
 
-func FetchPipelineStatus(pipelineInfo *types.PipelineInfo) (*types.PipelineStatus, error) {
-	// Engine program parent folder
+func StartPipeline(pipelineInfo *types.PipelineInfo, capability string) (*types.PipelineStatus, error) {
+	// Engine program path
 	engineParentPath := utl.GetEngineParentPath(pipelineInfo)
 
-	// Engine program full path
+	// Engine program name
 	engineProgramPath := utl.GetEngineProgramPath(pipelineInfo)
-
-	// Engine program parameter
-	containerPrefix := utl.GetContainerPrefix(pipelineInfo.PipelineName)
-	args := []string{"status",
-		"|grep " + containerPrefix}
 
 	// Change current working folder to engine path
 	if err := os.Chdir(engineParentPath); err != nil {
 		return sta.StatusAs(pipelineInfo, sta.Unknown), err
 	}
 
+	// Engine program parameter
+	args := []string{"up", "-d", capability}
+
 	// Dedicate the status fetch job to pipeline engine
 	if out, err := exec.Command(engineProgramPath, args...).Output(); err != nil {
 		return sta.StatusAs(pipelineInfo, sta.Unknown), err
 	} else {
 		fmt.Println(string(out))
-		return sta.StatusAs(pipelineInfo, sta.Up), nil
+		return FetchPipelineStatus(pipelineInfo)
 	}
 }
