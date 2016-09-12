@@ -23,6 +23,8 @@ func CreateProvision(pipelineInfo *types.PipelineInfo) error {
 			fmt.Println(engineParentPath + " Removed!")
 		}
 
+	} else {
+		fmt.Println(engineParentPath + " Not Exist!")
 	}
 
 	// Create new environment
