@@ -43,10 +43,17 @@ func CreateProvision(pipelineInfo *types.PipelineInfo) error {
 		return err
 	}
 
+	// Make engine program executable
+	if err := os.Chmod(engineProgramPath, os.ModePerm); err != nil {
+		fmt.Println(err)
+		return err
+	}
+
 	// Start provision process
 	args := []string{"init"}
 	if out, err := exec.Command(engineProgramPath, args...).Output(); err != nil {
-		fmt.Println(out)
+		fmt.Println(string(out))
+		fmt.Println(err)
 		return err
 	} else {
 		fmt.Println(out)
