@@ -3,6 +3,7 @@ package utility
 import (
 	"github.com/open-devops/pipeline-daemon/server/types"
 	"strings"
+	"os"
 )
 
 const (
@@ -34,4 +35,8 @@ func GetEngineProgramPath(pipelineInfo *types.PipelineInfo) string {
 
 func GetContainerPrefix(name string) string {
 	return strings.Replace(name, "-", "", -1)
+}
+
+func GetEngineTemplatePath() string {
+	return os.Getenv("GOPATH") + "github.com/open-devops/pipeline-docker/"
 }
