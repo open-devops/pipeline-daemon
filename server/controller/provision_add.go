@@ -4,6 +4,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/open-devops/pipeline-daemon/server/model"
 	"net/http"
+	"fmt"
 )
 
 func AddProvision(w http.ResponseWriter, r *http.Request) {
@@ -24,6 +25,7 @@ func AddProvision(w http.ResponseWriter, r *http.Request) {
 
 	// Create new provision environment for the pipeline
 	if err := model.CreateProvision(pipelineInfo); err != nil {
+		fmt.Println(err)
 		w.WriteHeader(http.StatusMethodNotAllowed)
 	} else {
 		w.WriteHeader(http.StatusOK)
