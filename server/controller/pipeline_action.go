@@ -8,11 +8,12 @@ import (
 	"net/http"
 )
 
-func StartPipeline(w http.ResponseWriter, r *http.Request) {
+func OperatePipeline(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 
 	// Get pipeline ID from path parameters
 	pipelineId := mux.Vars(r)["pipelineId"]
+	action := mux.Vars(r)["action"]
 	capability := mux.Vars(r)["capability"]
 
 	// Get pipeline fundamental info
@@ -25,7 +26,7 @@ func StartPipeline(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Start the pipeline's provisioning & Fetch running status
-	if status, err := model.StartPipeline(pipelineInfo, capability); err != nil {
+	if status, err := model.HandlePipelineAction(pipelineInfo, action, capability); err != nil {
 		fmt.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return

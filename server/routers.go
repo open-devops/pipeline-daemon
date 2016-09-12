@@ -54,45 +54,17 @@ var routes = Routes{
 	},
 
 	Route{
-		"RestartPipeline",
+		"OperatePipeline",
 		"POST",
-		"/v1/pipelines/{pipelineId}/restart",
-		ctl.RestartPipeline,
+		"/v1/pipelines/{pipelineId}/{operation}",
+		ctl.OperatePipeline,
 	},
 
 	Route{
-		"RestartCapability",
+		"OperateCapability",
 		"POST",
-		"/v1/pipelines/{pipelineId}/restart/{capability}",
-		ctl.RestartPipeline,
-	},
-
-	Route{
-		"StartPipeline",
-		"POST",
-		"/v1/pipelines/{pipelineId}/start",
-		ctl.StartPipeline,
-	},
-
-	Route{
-		"StartCapability",
-		"POST",
-		"/v1/pipelines/{pipelineId}/start/{capability}",
-		ctl.StartPipeline,
-	},
-
-	Route{
-		"StopPipeline",
-		"POST",
-		"/v1/pipelines/{pipelineId}/stop",
-		ctl.StopPipeline,
-	},
-
-	Route{
-		"StopCapability",
-		"POST",
-		"/v1/pipelines/{pipelineId}/stop/{capability}",
-		ctl.StopPipeline,
+		"/v1/pipelines/{pipelineId}/{operation}/{capability}",
+		ctl.OperatePipeline,
 	},
 
 	Route{
