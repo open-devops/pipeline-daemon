@@ -47,27 +47,6 @@ var routes = Routes{
 	},
 
 	Route{
-		"GetPipelineStatus",
-		"GET",
-		"/v1/pipelines/{pipelineId}/status",
-		ctl.GetPipelineStatus,
-	},
-
-	Route{
-		"OperatePipeline",
-		"POST",
-		"/v1/pipelines/{pipelineId}/{operation}",
-		ctl.OperatePipeline,
-	},
-
-	Route{
-		"OperateCapability",
-		"POST",
-		"/v1/pipelines/{pipelineId}/{operation}/{capability}",
-		ctl.OperatePipeline,
-	},
-
-	Route{
 		"AddProvision",
 		"POST",
 		"/v1/pipelines/{pipelineId}/provision",
@@ -86,5 +65,26 @@ var routes = Routes{
 		"GET",
 		"/v1/pipelines/{pipelineId}/provision",
 		ctl.GetProvision,
+	},
+
+	Route{
+		"GetPipelineStatus",
+		"GET",
+		"/v1/pipelines/{pipelineId}/status",
+		ctl.GetPipelineStatus,
+	},
+
+	Route{
+		"OperatePipeline",
+		"POST",
+		"/v1/pipelines/{pipelineId}/{operation}",
+		ctl.OperatePipeline,
+	},
+
+	Route{
+		"OperateCapability",
+		"POST",
+		"/v1/pipelines/{pipelineId}/{operation}/{capability}",
+		ctl.OperatePipeline,
 	},
 }
