@@ -77,14 +77,14 @@ var routes = Routes{
 	Route{
 		"OperatePipeline",
 		"POST",
-		"/v1/pipelines/{pipelineId}/{operation}",
+		"/v1/pipelines/{pipelineId}/{action}",
 		ctl.OperatePipeline,
 	},
 
 	Route{
 		"OperateCapability",
 		"POST",
-		"/v1/pipelines/{pipelineId}/{operation}/{capability}",
+		"/v1/pipelines/{pipelineId}/{action}/{capability}",
 		ctl.OperatePipeline,
 	},
 }
