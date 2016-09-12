@@ -24,7 +24,12 @@ func HandlePipelineAction(pipelineInfo *types.PipelineInfo,
 	}
 
 	// Engine program parameter
-	args := []string{action, capability}
+	ActionMapper := map[string]string{
+		"start":   "up",
+		"restart": "restart",
+		"stop":    "stop",
+	}
+	args := []string{ActionMapper[action], capability}
 
 	// Dedicate the status fetch job to pipeline engine
 	if _, err := exec.Command(engineProgramPath, args...).Output(); err != nil {
