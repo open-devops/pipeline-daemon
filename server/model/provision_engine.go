@@ -14,10 +14,12 @@ func CreateProvision(pipelineInfo *types.PipelineInfo) error {
 	// Remove existing environment
     existed, err := exists(engineParentPath);
 	if (err != nil) {
+		fmt.Println(err)
 		return err
 	}
 	if existed {
 		if err := os.RemoveAll(engineParentPath); err != nil {
+			fmt.Println(err)
 			return err
 		} else {
 			fmt.Println(engineParentPath + " Removed!")
