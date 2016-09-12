@@ -35,7 +35,8 @@ func CreateProvision(pipelineInfo *types.PipelineInfo) error {
 
 	// Make engine program ready
 	if err := copy_folder(utl.GetEngineTemplatePath(), engineParentPath); err != nil {
-		return err;
+		fmt.Println(err)
+		return err
 	}
 
 	return nil
