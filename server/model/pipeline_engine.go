@@ -31,7 +31,6 @@ func HandlePipelineAction(pipelineInfo *types.PipelineInfo,
 		"stop":    "stop",
 	}
 	args := []string{ActionMapper[action], capability}
-	fmt.Println("action = " + action + ";args[0] = " + args[0] + ";args[1] = " + args[1] )
 
 	// Dedicate the status fetch job to pipeline engine
 	if _, err := exec.Command(engineProgramPath, args...).Output(); err != nil {
