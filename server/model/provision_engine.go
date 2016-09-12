@@ -30,7 +30,7 @@ func CreateProvision(pipelineInfo *types.PipelineInfo) error {
 	}
 
 	// Create new environment
-	if err := os.Mkdir(engineParentPath, os.ModePerm); err != err {
+	if err := os.MkdirAll(engineParentPath, os.ModePerm); err != err {
 		return err
 	} else {
 		fmt.Println(engineParentPath + " Created!")
