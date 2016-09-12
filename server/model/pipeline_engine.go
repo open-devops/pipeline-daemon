@@ -6,6 +6,7 @@ import (
 	utl "github.com/open-devops/pipeline-daemon/server/utility"
 	"os"
 	"os/exec"
+	"fmt"
 )
 
 func HandlePipelineAction(pipelineInfo *types.PipelineInfo,
@@ -30,6 +31,7 @@ func HandlePipelineAction(pipelineInfo *types.PipelineInfo,
 		"stop":    "stop",
 	}
 	args := []string{ActionMapper[action], capability}
+	fmt.Println("args[0] = " + args[0] + ";args[1] = " + args[1] )
 
 	// Dedicate the status fetch job to pipeline engine
 	if _, err := exec.Command(engineProgramPath, args...).Output(); err != nil {
