@@ -38,6 +38,7 @@ func CreateProvision(pipelineInfo *types.PipelineInfo) error {
 	src := utl.GetEngineTemplatePath()
 	args := []string {"-R", src ,engineParentPath}
 	if err := exec.Command(cmd, args...).Run() ; err != nil {
+		fmt.Println(err)
 		return err
 	}
 
