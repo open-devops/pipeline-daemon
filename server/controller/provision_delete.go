@@ -3,8 +3,8 @@ package controller
 import (
 	"fmt"
 	"github.com/gorilla/mux"
-	"net/http"
 	"github.com/open-devops/pipeline-daemon/server/model"
+	"net/http"
 )
 
 func DeleteProvision(w http.ResponseWriter, r *http.Request) {

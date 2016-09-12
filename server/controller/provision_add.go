@@ -1,10 +1,10 @@
 package controller
 
 import (
+	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/open-devops/pipeline-daemon/server/model"
 	"net/http"
-	"fmt"
 )
 
 func AddProvision(w http.ResponseWriter, r *http.Request) {

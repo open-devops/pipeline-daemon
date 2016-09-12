@@ -72,6 +72,8 @@ func DeleteProvision(pipelineInfo *types.PipelineInfo) error {
 			return err
 		}
 	}
+
+	return nil
 }
 
 // exists returns whether the given file or directory exists or not
