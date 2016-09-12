@@ -55,6 +55,15 @@ func copy_folder(source string, dest string) (err error) {
 	directory, _ := os.Open(source)
 	objects, err := directory.Readdir(-1)
 
+	// Create destination folder if not existed
+	if existed, err := exists(dest); existed == false && err == nil {
+		if err := os.MkdirAll(dest, os.ModePerm); err != nil {
+			return err
+		}
+	} else if err != nil {
+		return err
+	}
+
 	// Copy folder contents
 	for _, obj := range objects {
 
@@ -65,12 +74,12 @@ func copy_folder(source string, dest string) (err error) {
 		if obj.IsDir() {
 			err = copy_folder(sourceFilePointer, destinationFilePointer)
 			if err != nil {
-				fmt.Println(err)
+				return err
 			}
 		} else {
 			err = copy_file(sourceFilePointer, destinationFilePointer)
 			if err != nil {
-				fmt.Println(err)
+				return err
 			}
 		}
 

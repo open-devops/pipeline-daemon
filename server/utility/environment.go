@@ -38,5 +38,5 @@ func GetContainerPrefix(name string) string {
 }
 
 func GetEngineTemplatePath() string {
-	return os.Getenv("GOPATH") + "github.com/open-devops/pipeline-docker/"
+	return os.Getenv("GOPATH") + "/src/github.com/open-devops/pipeline-docker/"
 }
