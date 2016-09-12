@@ -5,7 +5,7 @@ import (
 	utl "github.com/open-devops/pipeline-daemon/server/utility"
 	"os"
 	"fmt"
-	"os/exec"
+	"io"
 )
 
 func CreateProvision(pipelineInfo *types.PipelineInfo) error {
@@ -34,12 +34,8 @@ func CreateProvision(pipelineInfo *types.PipelineInfo) error {
 	}
 
 	// Make engine program ready
-	cmd := "cp"
-	src := utl.GetEngineTemplatePath()
-	args := []string {"-R", src ,engineParentPath}
-	if err := exec.Command(cmd, args...).Run() ; err != nil {
-		fmt.Println(err)
-		return err
+	if err := copy_folder(utl.GetEngineTemplatePath(), engineParentPath); err != nil {
+		return err;
 	}
 
 	return nil
@@ -52,3 +48,58 @@ func exists(path string) (bool, error) {
 	if os.IsNotExist(err) { return false, nil }
 	return true, err
 }
+
+func copy_folder(source string, dest string) (err error) {
+	// Get folder contents
+	directory, _ := os.Open(source)
+	objects, err := directory.Readdir(-1)
+
+	// Copy folder contents
+	for _, obj := range objects {
+
+		sourceFilePointer := source + "/" + obj.Name()
+
+		destinationFilePointer := dest + "/" + obj.Name()
+
+		if obj.IsDir() {
+			err = copy_folder(sourceFilePointer, destinationFilePointer)
+			if err != nil {
+				fmt.Println(err)
+			}
+		} else {
+			err = copy_file(sourceFilePointer, destinationFilePointer)
+			if err != nil {
+				fmt.Println(err)
+			}
+		}
+
+	}
+	return
+}
+
+func copy_file(source string, dest string) (err error) {
+	sourceFile, err := os.Open(source)
+	if err != nil {
+		return err
+	}
+
+	defer sourceFile.Close()
+
+	destFile, err := os.Create(dest)
+	if err != nil {
+		return err
+	}
+
+	defer destFile.Close()
+
+	_, err = io.Copy(destFile, sourceFile)
+	if err == nil {
+		sourceInfo, err := os.Stat(source)
+		if err != nil {
+			err = os.Chmod(dest, sourceInfo.Mode())
+		}
+	}
+
+	return
+}
+
