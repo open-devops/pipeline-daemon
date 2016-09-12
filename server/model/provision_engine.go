@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/open-devops/pipeline-daemon/server/types"
 	utl "github.com/open-devops/pipeline-daemon/server/utility"
-	"io"
 	"os"
 	"os/exec"
 )
@@ -17,7 +16,7 @@ func CreateProvision(pipelineInfo *types.PipelineInfo) error {
 	engineProgramPath := utl.GetEngineProgramPath(pipelineInfo)
 
 	// Remove existing environment
-	existed, err := exists(engineParentPath)
+	existed, err := utl.Exists(engineParentPath)
 	if err != nil {
 		return err
 	}
@@ -37,7 +36,7 @@ func CreateProvision(pipelineInfo *types.PipelineInfo) error {
 	}
 
 	// Make engine program ready
-	if err := copy_folder(utl.GetEngineTemplatePath(), engineParentPath); err != nil {
+	if err := utl.CopyFolder(utl.GetEngineTemplatePath(), engineParentPath); err != nil {
 		return err
 	}
 
@@ -63,7 +62,7 @@ func DeleteProvision(pipelineInfo *types.PipelineInfo) error {
 	engineParentPath := utl.GetEngineParentPath(pipelineInfo)
 
 	// Remove existing environment
-	existed, err := exists(engineParentPath)
+	existed, err := utl.Exists(engineParentPath)
 	if err != nil {
 		return err
 	}
@@ -76,78 +75,83 @@ func DeleteProvision(pipelineInfo *types.PipelineInfo) error {
 	return nil
 }
 
-// exists returns whether the given file or directory exists or not
-func exists(path string) (bool, error) {
-	_, err := os.Stat(path)
-	if err == nil {
-		return true, nil
-	}
-	if os.IsNotExist(err) {
-		return false, nil
-	}
-	return true, err
-}
+func FetchProvisionInfo(pipelineInfo *types.PipelineInfo) (*types.PipelineProvision, error) {
+	// Engine program path
+	engineParentPath := utl.GetEngineParentPath(pipelineInfo)
 
-// Copy folder recursively
-func copy_folder(source string, dest string) (err error) {
-	// Fetch folder contents list
-	directory, _ := os.Open(source)
-	objects, err := directory.Readdir(-1)
-
-	// Create destination folder if not existed
-	if existed, err := exists(dest); existed == false && err == nil {
-		if err := os.MkdirAll(dest, os.ModePerm); err != nil {
-			return err
-		}
-	} else if err != nil {
-		return err
-	}
-
-	// Copy folder recursively
-	for _, obj := range objects {
-		// source file full path
-		sourceFilePointer := source + "/" + obj.Name()
-		// target file full path
-		destinationFilePointer := dest + "/" + obj.Name()
-
-		if obj.IsDir() {
-			err = copy_folder(sourceFilePointer, destinationFilePointer)
-			if err != nil {
-				return err
-			}
-		} else {
-			err = copy_file(sourceFilePointer, destinationFilePointer)
-			if err != nil {
-				return err
-			}
-		}
-
-	}
-	return
-}
-
-func copy_file(source string, dest string) (err error) {
-	sourceFile, err := os.Open(source)
+	// Remove existing environment
+	existed, err := utl.Exists(engineParentPath)
 	if err != nil {
-		return err
+		return &types.PipelineProvision{PipelineId: pipelineInfo.PipelineId, Capabilities: nil}, err
+	}
+	if !existed {
+		return &types.PipelineProvision{PipelineId: pipelineInfo.PipelineId, Capabilities: nil}, nil
 	}
 
-	defer sourceFile.Close()
-
-	destFile, err := os.Create(dest)
-	if err != nil {
-		return err
-	}
-
-	defer destFile.Close()
-
-	_, err = io.Copy(destFile, sourceFile)
-	if err == nil {
-		sourceInfo, err := os.Stat(source)
-		if err != nil {
-			err = os.Chmod(dest, sourceInfo.Mode())
-		}
-	}
-
-	return
+	// At this time, because we have not retrieved provision info from the pipeline runtime
+	// there we return a default supported pipeline provision just for placeholder to improve.
+	return &types.PipelineProvision{
+		PipelineId: pipelineInfo.PipelineId,
+		Capabilities: types.PipelineCapabilities{
+			types.PipelineCapability{
+				Kind:        "ca",
+				Driver:      "docker",
+				Provider:    "Jira",
+				ConfigItems: nil,
+			},
+			types.PipelineCapability{
+				Kind:     "scm",
+				Driver:   "docker",
+				Provider: "Gitlab",
+				ConfigItems: types.ConfigItems{
+					types.ConfigItem{
+						Kind:  "text",
+						Name:  "Repository Name",
+						Value: pipelineInfo.PipelineName,
+					},
+					types.ConfigItem{
+						Kind:  "option",
+						Name:  "Branch",
+						Value: "Master",
+					},
+				},
+			},
+			types.PipelineCapability{
+				Kind:        "ci",
+				Driver:      "docker",
+				Provider:    "Jenkins",
+				ConfigItems: nil,
+			},
+			types.PipelineCapability{
+				Kind:        "cq",
+				Driver:      "docker",
+				Provider:    "SonarQube",
+				ConfigItems: nil,
+			},
+			types.PipelineCapability{
+				Kind:        "rpa",
+				Driver:      "docker",
+				Provider:    "nexus",
+				ConfigItems: nil,
+			},
+			types.PipelineCapability{
+				Kind:        "rpd",
+				Driver:      "docker",
+				Provider:    "Harbor",
+				ConfigItems: nil,
+			},
+			types.PipelineCapability{
+				Kind:        "cov",
+				Driver:      "docker",
+				Provider:    "Hygieia",
+				ConfigItems: nil,
+			},
+			types.PipelineCapability{
+				Kind:        "cmp",
+				Driver:      "docker",
+				Provider:    "Rancher",
+				ConfigItems: nil,
+			},
+		},
+	}, nil
 }
