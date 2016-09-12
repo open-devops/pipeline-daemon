@@ -6,11 +6,15 @@ import (
 	utl "github.com/open-devops/pipeline-daemon/server/utility"
 	"io"
 	"os"
+	"os/exec"
 )
 
 func CreateProvision(pipelineInfo *types.PipelineInfo) error {
 	// Engine program path
 	engineParentPath := utl.GetEngineParentPath(pipelineInfo)
+
+	// Engine program name
+	engineProgramPath := utl.GetEngineProgramPath(pipelineInfo)
 
 	// Remove existing environment
 	existed, err := exists(engineParentPath)
@@ -37,6 +41,16 @@ func CreateProvision(pipelineInfo *types.PipelineInfo) error {
 	if err := copy_folder(utl.GetEngineTemplatePath(), engineParentPath); err != nil {
 		fmt.Println(err)
 		return err
+	}
+
+	// Start provision process
+	args := []string{"init"}
+	if out, err := exec.Command(engineProgramPath, args...).Output(); err != nil {
+		fmt.Println(out)
+		return err
+	} else {
+		fmt.Println(out)
+		return nil
 	}
 
 	return nil
