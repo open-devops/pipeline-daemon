@@ -18,9 +18,11 @@ func CreateProvision(pipelineInfo *types.PipelineInfo) error {
 	}
 	if existed {
 		if err := os.RemoveAll(engineParentPath); err != nil {
-			fmt.Println(engineParentPath + " Removed!")
 			return err
+		} else {
+			fmt.Println(engineParentPath + " Removed!")
 		}
+
 	}
 
 	// Create new environment
