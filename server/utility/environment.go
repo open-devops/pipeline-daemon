@@ -2,8 +2,8 @@ package utility
 
 import (
 	"github.com/open-devops/pipeline-daemon/server/types"
-	"strings"
 	"os"
+	"strings"
 )
 
 const (

@@ -1,11 +1,11 @@
 package model
 
 import (
+	"fmt"
 	"github.com/open-devops/pipeline-daemon/server/types"
 	utl "github.com/open-devops/pipeline-daemon/server/utility"
-	"os"
-	"fmt"
 	"io"
+	"os"
 )
 
 func CreateProvision(pipelineInfo *types.PipelineInfo) error {
@@ -13,8 +13,8 @@ func CreateProvision(pipelineInfo *types.PipelineInfo) error {
 	engineParentPath := utl.GetEngineParentPath(pipelineInfo)
 
 	// Remove existing environment
-    existed, err := exists(engineParentPath);
-	if (err != nil) {
+	existed, err := exists(engineParentPath)
+	if err != nil {
 		return err
 	}
 	if existed {
@@ -45,13 +45,18 @@ func CreateProvision(pipelineInfo *types.PipelineInfo) error {
 // exists returns whether the given file or directory exists or not
 func exists(path string) (bool, error) {
 	_, err := os.Stat(path)
-	if err == nil { return true, nil }
-	if os.IsNotExist(err) { return false, nil }
+	if err == nil {
+		return true, nil
+	}
+	if os.IsNotExist(err) {
+		return false, nil
+	}
 	return true, err
 }
 
+// Copy folder recursively
 func copy_folder(source string, dest string) (err error) {
-	// Get folder contents
+	// Fetch folder contents list
 	directory, _ := os.Open(source)
 	objects, err := directory.Readdir(-1)
 
@@ -64,11 +69,11 @@ func copy_folder(source string, dest string) (err error) {
 		return err
 	}
 
-	// Copy folder contents
+	// Copy folder recursively
 	for _, obj := range objects {
-
+		// source file full path
 		sourceFilePointer := source + "/" + obj.Name()
-
+		// target file full path
 		destinationFilePointer := dest + "/" + obj.Name()
 
 		if obj.IsDir() {
@@ -112,4 +117,3 @@ func copy_file(source string, dest string) (err error) {
 
 	return
 }
-
