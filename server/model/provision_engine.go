@@ -4,6 +4,7 @@ import (
 	"github.com/open-devops/pipeline-daemon/server/types"
 	utl "github.com/open-devops/pipeline-daemon/server/utility"
 	"os"
+	"fmt"
 )
 
 func CreateProvision(pipelineInfo *types.PipelineInfo) error {
@@ -17,6 +18,7 @@ func CreateProvision(pipelineInfo *types.PipelineInfo) error {
 	}
 	if existed {
 		if err := os.RemoveAll(engineParentPath); err != nil {
+			fmt.Println(engineParentPath + " Removed!")
 			return err
 		}
 	}
@@ -25,6 +27,7 @@ func CreateProvision(pipelineInfo *types.PipelineInfo) error {
 	if err := os.Mkdir(engineParentPath, os.ModePerm); err != err {
 		return err
 	} else {
+		fmt.Println(engineParentPath + " Created!")
 		return nil
 	}
 }
