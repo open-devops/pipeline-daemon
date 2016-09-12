@@ -6,7 +6,6 @@ import (
 	utl "github.com/open-devops/pipeline-daemon/server/utility"
 	"os"
 	"os/exec"
-	"fmt"
 )
 
 func HandlePipelineAction(pipelineInfo *types.PipelineInfo,
