@@ -4,12 +4,29 @@ import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"net/http"
+	"github.com/open-devops/pipeline-daemon/server/model"
 )
 
 func DeleteProvision(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
 
+	// Get pipeline ID from path parameters
 	pipelineId := mux.Vars(r)["pipelineId"]
-	fmt.Fprintf(w, "Pipeline (ID:"+pipelineId+") deleted!")
+
+	// Get pipeline fundamental info
+	pipelineInfo := model.FetchPipelineInfo(pipelineId)
+
+	// Invalid Pipeline ID supplied
+	if len(pipelineInfo.PipelineName) == 0 {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	// Create new provision environment for the pipeline
+	if err := model.DeleteProvision(pipelineInfo); err != nil {
+		fmt.Println(err)
+		w.WriteHeader(http.StatusMethodNotAllowed)
+	} else {
+		w.WriteHeader(http.StatusOK)
+	}
 }

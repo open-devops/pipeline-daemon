@@ -58,6 +58,22 @@ func CreateProvision(pipelineInfo *types.PipelineInfo) error {
 	return nil
 }
 
+func DeleteProvision(pipelineInfo *types.PipelineInfo) error {
+	// Engine program path
+	engineParentPath := utl.GetEngineParentPath(pipelineInfo)
+
+	// Remove existing environment
+	existed, err := exists(engineParentPath)
+	if err != nil {
+		return err
+	}
+	if existed {
+		if err := os.RemoveAll(engineParentPath); err != nil {
+			return err
+		}
+	}
+}
+
 // exists returns whether the given file or directory exists or not
 func exists(path string) (bool, error) {
 	_, err := os.Stat(path)
