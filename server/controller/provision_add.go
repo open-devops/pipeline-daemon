@@ -8,6 +8,8 @@ import (
 )
 
 func AddProvision(w http.ResponseWriter, r *http.Request) {
+	// allow cross domain AJAX requests
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 
 	// Get pipeline ID from path parameters
