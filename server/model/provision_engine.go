@@ -67,7 +67,7 @@ func DeleteProvision(pipelineInfo *types.PipelineInfo) error {
 		return err
 	}
 	if existed {
-		if _, err := HandlePipelineAction(pipelineInfo, ACTION_STOP, nil); err != nil {
+		if _, err := HandlePipelineAction(pipelineInfo, ACTION_STOP, ""); err != nil {
 			return err
 		}
 		if err := os.RemoveAll(engineParentPath); err != nil {
