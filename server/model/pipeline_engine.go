@@ -8,6 +8,12 @@ import (
 	"os/exec"
 )
 
+const (
+	ACTION_START   = "up"
+	ACTION_RESTART = "restart"
+	ACTION_STOP    = "stop"
+)
+
 func HandlePipelineAction(pipelineInfo *types.PipelineInfo,
 	action string,
 	capability string) (*types.PipelineStatus, error) {
@@ -24,12 +30,13 @@ func HandlePipelineAction(pipelineInfo *types.PipelineInfo,
 	}
 
 	// Engine program parameter
-	ActionMapper := map[string]string{
-		"start":   "up",
-		"restart": "restart",
-		"stop":    "stop",
+	actionMapping := map[string]string{
+		"start":   ACTION_START,
+		"restart": ACTION_RESTART,
+		"stop":    ACTION_STOP,
 	}
-	args := []string{ActionMapper[action], capability}
+
+	args := []string{actionMapping[action], capability}
 
 	// Dedicate the status fetch job to pipeline engine
 	if _, err := exec.Command(engineProgramPath, args...).Output(); err != nil {
