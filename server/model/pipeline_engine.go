@@ -42,6 +42,13 @@ func HandlePipelineAction(pipelineInfo *types.PipelineInfo,
 	if _, err := exec.Command(engineProgramPath, args...).Output(); err != nil {
 		return sta.StatusAs(pipelineInfo, sta.Unknown), err
 	} else {
-		return FetchPipelineStatus(pipelineInfo)
+		switch action {
+		default:
+			return sta.StatusAs(pipelineInfo, sta.Unknown), nil
+		case "start", "restart":
+			return sta.StatusAs(pipelineInfo, sta.Up), nil
+		case "stop":
+			return sta.StatusAs(pipelineInfo, sta.Down), nil
+		}
 	}
 }

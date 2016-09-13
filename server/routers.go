@@ -37,7 +37,7 @@ func NewRouter() *mux.Router {
 func Index(w http.ResponseWriter, r *http.Request) {
 	// allow cross domain AJAX requests
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-	fmt.Fprintf(w, "Hello" + r.Host +", Welcome to Pipeline Daemon Server!")
+	fmt.Fprintf(w, "Hello"+r.Host+", Welcome to Pipeline Daemon Server!")
 }
 
 var routes = Routes{
