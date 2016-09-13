@@ -99,7 +99,7 @@ func FetchProvisionInfo(pipelineInfo *types.PipelineInfo) (*types.PipelineProvis
 			types.PipelineCapability{
 				Kind:        "ca",
 				Driver:      "docker",
-				Provider:    "Jira",
+				Provider:    "Redmine",
 				ConfigItems: nil,
 			},
 			types.PipelineCapability{
@@ -132,6 +132,12 @@ func FetchProvisionInfo(pipelineInfo *types.PipelineInfo) (*types.PipelineProvis
 				ConfigItems: nil,
 			},
 			types.PipelineCapability{
+				Kind:        "cov",
+				Driver:      "docker",
+				Provider:    "Hygieia",
+				ConfigItems: nil,
+			},
+			types.PipelineCapability{
 				Kind:        "rpa",
 				Driver:      "docker",
 				Provider:    "nexus",
@@ -141,12 +147,6 @@ func FetchProvisionInfo(pipelineInfo *types.PipelineInfo) (*types.PipelineProvis
 				Kind:        "rpd",
 				Driver:      "docker",
 				Provider:    "Harbor",
-				ConfigItems: nil,
-			},
-			types.PipelineCapability{
-				Kind:        "cov",
-				Driver:      "docker",
-				Provider:    "Hygieia",
 				ConfigItems: nil,
 			},
 			types.PipelineCapability{
