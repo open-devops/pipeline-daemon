@@ -140,7 +140,7 @@ func FetchProvisionInfo(pipelineInfo *types.PipelineInfo) (*types.PipelineProvis
 			types.PipelineCapability{
 				Kind:        "rpa",
 				Driver:      "docker",
-				Provider:    "nexus",
+				Provider:    "Nexus",
 				ConfigItems: nil,
 			},
 			types.PipelineCapability{
