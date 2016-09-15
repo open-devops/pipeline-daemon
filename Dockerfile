@@ -12,15 +12,12 @@ ENV REFRESHED_AT 2016-09-09
 RUN set -x \
     && apk add --no-cache git
 
-# Copy source
-ADD . /go/src/github.com/open-devops/pipeline-daemon
-
 # Build executable server daemon
 RUN go get github.com/gorilla/mux \
  && go get gopkg.in/mgo.v2 \
- && go install github.com/open-devops/pipeline-daemon
+ && go get github.com/open-devops/pipeline-daemon/...
 
-# Service listens on port 8080.
+# Service listens on port 8080
 EXPOSE 8080
 
 # Run the Daemon Service by default when the container starts
