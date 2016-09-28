@@ -1,0 +1,8 @@
+name:  OpenDevOps-Daemon
+description: |
+   Docker Image for Pipeline Daemon Server
+version:  1.0.0
+category:  CO
+maintainer:  open.devops
+license:  Apache 2
+projectURL: https://github.com/ open-devops/pipeline-daemon

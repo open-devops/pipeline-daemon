@@ -1,0 +1,7 @@
+.catalog:
+  name:  OpenDevOps-Daemon
+  version:  1.0.0
+  description:  Docker Image for Pipeline Daemon Server
+  uuid: #
+  minimum_rancher_version: #
+  questions: #
